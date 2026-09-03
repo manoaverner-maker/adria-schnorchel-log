@@ -644,14 +644,14 @@ function initScrollSpy(){
 function initDb(){
   const configured = firebaseConfig.apiKey && firebaseConfig.apiKey.indexOf('__') !== 0;
   if(!configured || typeof firebase === 'undefined'){
-    setSyncStatus('offline', 'nur auf diesem Gerät gespeichert');
+    setSyncStatus('local', 'läuft lokal auf diesem Gerät');
     return;
   }
   try{
     firebase.initializeApp(firebaseConfig);
     firestoreDb = firebase.firestore();
   }catch(e){
-    setSyncStatus('offline', 'nur auf diesem Gerät gespeichert');
+    setSyncStatus('local', 'läuft lokal auf diesem Gerät');
     return;
   }
   setSyncStatus('connecting', 'verbindet…');
