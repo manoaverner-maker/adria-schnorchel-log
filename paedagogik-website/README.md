@@ -163,14 +163,19 @@ Einmalig von Hand einzustellen:
 1. Im Repository auf **Settings → Pages**
 2. Unter *Build and deployment* bei *Source* **GitHub Actions** wählen
 
-Danach wird bei jeder Änderung am Website-Ordner automatisch eine neue
-Vorschau veröffentlicht. Die Adresse steht anschliessend auf derselben
-Seite unter Settings → Pages.
+Ohne diesen Schritt lehnt GitHub jede Veröffentlichung ab. Der Ablauf
+startet darum nicht bei jedem Push, sondern nur bei Änderungen am
+Website-Ordner auf `main` sowie auf Knopfdruck über **Actions → Website-
+Vorschau veröffentlichen → Run workflow**.
 
-Läuft die Veröffentlichung von einem anderen Branch als `main` und bricht
-sie mit einer Meldung über Umgebungsregeln ab, muss der Branch unter
-**Settings → Environments → github-pages → Deployment branches**
-freigegeben werden.
+Danach steht die Adresse unter Settings → Pages.
+
+Wird der Ablauf von Hand auf einem anderen Branch als `main` gestartet
+und bricht mit einer Meldung über Umgebungsregeln ab, muss der Branch
+unter **Settings → Environments → github-pages → Deployment branches**
+freigegeben werden. Einfacher ist es, den Pull Request zuerst nach `main`
+zu übernehmen: die Website liegt in einem eigenen Ordner und ändert am
+übrigen Repository nichts.
 
 Die Vorschau enthält eine Sperre für Suchmaschinen, damit die Seite mit
 ihren Platzhaltern nicht gefunden wird. Die Sperre entsteht nur in der
