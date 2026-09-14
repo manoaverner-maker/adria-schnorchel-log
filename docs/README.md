@@ -12,7 +12,7 @@ ist ein kleiner lokaler Server, damit sich die Seite genau so verhält wie
 später im Netz:
 
 ```
-cd paedagogik-website
+cd docs
 python3 -m http.server 8000
 ```
 
@@ -31,6 +31,8 @@ Dann im Browser `http://localhost:8000` aufrufen.
 | `assets/js/site.js` | Sprachumschaltung |
 | `assets/img/` | Bilder |
 | `assets/fonts/` | Schriftdateien samt Lizenztexten |
+| `robots.txt` | hält Suchmaschinen von der Vorschau fern |
+| `.nojekyll` | sagt GitHub, die Dateien unverändert auszuliefern |
 
 ## Texte ändern
 
@@ -144,9 +146,10 @@ Metanet.
 
 1. Domain registrieren (rund 15–20 CHF pro Jahr)
 2. Webhosting-Paket dazu buchen
-3. Den **Inhalt** des Ordners `paedagogik-website` in das
-   Web-Verzeichnis hochladen (meist `public_html` oder `www`) — nicht den
-   Ordner selbst, sondern was darin liegt
+3. Den **Inhalt** des Ordners `docs` in das Web-Verzeichnis hochladen
+   (meist `public_html` oder `www`), nicht den Ordner selbst, sondern was
+   darin liegt. Die Datei `robots.txt` dabei weglassen: sie gehört nur
+   zur Vorschau und würde die echte Seite vor Suchmaschinen verstecken
 4. HTTPS aktivieren (bei allen genannten Anbietern kostenlos)
 
 Danach ist die Seite unter der eigenen Domain erreichbar.
@@ -155,31 +158,26 @@ Danach ist die Seite unter der eigenen Domain erreichbar.
 
 Solange es keine Domain gibt, kann GitHub die Seite kostenlos unter einer
 Adresse der Form `https://<benutzername>.github.io/adria-schnorchel-log/`
-bereitstellen. Der nötige Ablauf liegt unter
-`.github/workflows/website-vorschau.yml` im Repository.
+bereitstellen. Genau dafür heisst dieser Ordner `docs`: GitHub Pages
+liefert in der einfachen Betriebsart entweder das Wurzelverzeichnis oder
+einen Ordner namens `docs` aus, und das Wurzelverzeichnis ist hier schon
+vom Schnorchel-Log belegt.
 
-Einmalig von Hand einzustellen:
+Einzustellen, einmalig und von Hand:
 
 1. Im Repository auf **Settings → Pages**
-2. Unter *Build and deployment* bei *Source* **GitHub Actions** wählen
+2. Bei *Source* **Deploy from a branch** wählen
+3. Als *Branch* den gewünschten Branch und als Ordner **`/docs`** wählen
+4. **Save**
 
-Ohne diesen Schritt lehnt GitHub jede Veröffentlichung ab. Der Ablauf
-startet darum nicht bei jedem Push, sondern nur bei Änderungen am
-Website-Ordner auf `main` sowie auf Knopfdruck über **Actions → Website-
-Vorschau veröffentlichen → Run workflow**.
+Nach ein bis zwei Minuten ist die Seite unter der Adresse erreichbar, die
+auf derselben Einstellungsseite erscheint. Ab dann veröffentlicht jeder
+Push auf diesen Branch die neue Fassung von selbst.
 
-Danach steht die Adresse unter Settings → Pages.
+Die Datei `robots.txt` hält Suchmaschinen von der Vorschau fern, solange
+noch Platzhalter darin stehen. Sie gehört nicht auf die spätere echte
+Domain.
 
-Wird der Ablauf von Hand auf einem anderen Branch als `main` gestartet
-und bricht mit einer Meldung über Umgebungsregeln ab, muss der Branch
-unter **Settings → Environments → github-pages → Deployment branches**
-freigegeben werden. Einfacher ist es, den Pull Request zuerst nach `main`
-zu übernehmen: die Website liegt in einem eigenen Ordner und ändert am
-übrigen Repository nichts.
-
-Die Vorschau enthält eine Sperre für Suchmaschinen, damit die Seite mit
-ihren Platzhaltern nicht gefunden wird. Die Sperre entsteht nur in der
-Vorschau und betrifft die spätere echte Domain nicht.
 
 ## Technische Entscheide, kurz begründet
 
