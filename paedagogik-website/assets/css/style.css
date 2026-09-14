@@ -8,21 +8,19 @@
    will, ändert nur diesen Block — nicht die Regeln weiter unten.
    --------------------------------------------------------- */
 :root {
-  /* Helles Erscheinungsbild (Standard): Weiss und Fast-Schwarz.
-     Bewusst ohne Farbakzent — die Portraitfotos setzen später die
-     einzigen Farbflächen. Soll später eine Markenfarbe dazukommen,
-     genügt es, --accent und --accent-text zu ändern. */
-  --paper:        #FFFFFF;
-  --surface:      #FAFAFA;
-  --ink:          #1A1D21;
-  --ink-strong:   #0B0D10;
-  --ink-muted:    #5C646D;
-  --accent:       #1A1D21;  /* Flächen: Schaltflächen */
-  --accent-text:  #0B0D10;  /* kleine Auszeichnungsschrift */
-  --accent-ink:   #FFFFFF;  /* Schrift auf dunkler Fläche */
-  --line:         #E4E6E9;
-  --line-strong:  #1A1D21;
+  /* Helles Erscheinungsbild (Standard) */
+  --paper:        #F2F3EE;
+  --surface:      #FFFFFF;
+  --ink:          #232C39;
+  --ink-strong:   #141A23;
+  --ink-muted:    #535B63;
+  --accent:       #C97A1F;  /* Flächen, Linien, grosse Schrift */
+  --accent-text:  #8F5310;  /* dieselbe Farbe, dunkler: für kleine Schrift lesbar */
+  --accent-ink:   #FFFFFF;  /* Schrift auf ockerner Fläche */
+  --line:         #CBCFC6;
+  --line-strong:  #232C39;
   --focus:        #1F6FEB;
+  --wave:         0.18;     /* Deckkraft des Wellenbands im Hero */
 
   /* Typografie — Schriftdateien siehe fonts.css */
   --font-display: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -37,32 +35,34 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper:       #0F1215;
-    --surface:     #16191E;
-    --ink:         #E8EAEC;
+    --paper:       #191D24;
+    --surface:     #20252E;
+    --ink:         #EBEDEF;
     --ink-strong:  #FFFFFF;
-    --ink-muted:   #9AA2AB;
-    --accent:      #E8EAEC;
-    --accent-text: #FFFFFF;
-    --accent-ink:  #0F1215;
-    --line:        #2A2F35;
-    --line-strong: #8A929B;
+    --ink-muted:   #A3ACB7;
+    --accent:      #E0A458;
+    --accent-text: #E8B575;
+    --accent-ink:  #1A1204;
+    --line:        #343C48;
+    --line-strong: #6C7685;
     --focus:       #7FB2FF;
+    --wave:        0.22;
   }
 }
 
 :root[data-theme="dark"] {
-  --paper:       #0F1215;
-  --surface:     #16191E;
-  --ink:         #E8EAEC;
+  --paper:       #191D24;
+  --surface:     #20252E;
+  --ink:         #EBEDEF;
   --ink-strong:  #FFFFFF;
-  --ink-muted:   #9AA2AB;
-  --accent:      #E8EAEC;
-  --accent-text: #FFFFFF;
-  --accent-ink:  #0F1215;
-  --line:        #2A2F35;
-  --line-strong: #8A929B;
+  --ink-muted:   #A3ACB7;
+  --accent:      #E0A458;
+  --accent-text: #E8B575;
+  --accent-ink:  #1A1204;
+  --line:        #343C48;
+  --line-strong: #6C7685;
   --focus:       #7FB2FF;
+  --wave:        0.22;
 }
 
 /* ---------- 2. Grundlagen ---------- */
@@ -144,8 +144,8 @@ a { color: inherit; }
 .section-title {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(24px, 3.4vw, 34px);
-  line-height: 1.15;
+  font-size: clamp(26px, 3.6vw, 37px);
+  line-height: 1.13;
   letter-spacing: -0.01em;
   color: var(--ink-strong);
   text-wrap: balance;
@@ -239,6 +239,37 @@ a { color: inherit; }
 }
 .site-nav a:hover { border-bottom-color: var(--accent); }
 
+/* Umschalter für helle und dunkle Darstellung.
+   Welches Symbol sichtbar ist, entscheidet allein das CSS: gezeigt wird
+   immer das Symbol der Darstellung, zu der der Klick führt. */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--ink-muted);
+  cursor: pointer;
+}
+.theme-toggle:hover { color: var(--ink-strong); }
+.theme-toggle svg { width: 16px; height: 16px; }
+
+.theme-toggle .icon-moon { display: block; }
+.theme-toggle .icon-sun { display: none; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: none; }
+  :root:not([data-theme="light"]) .theme-toggle .icon-sun { display: block; }
+}
+:root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+:root[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+:root[data-theme="light"] .theme-toggle .icon-moon { display: block; }
+:root[data-theme="light"] .theme-toggle .icon-sun { display: none; }
+
 /* Sprachumschalter */
 .lang-switch {
   display: flex;
@@ -268,7 +299,38 @@ a { color: inherit; }
 }
 
 /* ---------- 5. Hero ---------- */
+
+/* Die Konturlinien liegen randabfallend hinter dem Hero-Text.
+   Ihre Deckkraft steht als --wave oben bei den Farben. */
+.hero-wrap {
+  position: relative;
+  overflow: hidden;
+}
+.hero-waves {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(150px, 22vw, 250px);
+  color: var(--accent);
+  opacity: var(--wave);
+  pointer-events: none;
+}
+.hero-waves svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.hero-waves path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+}
+
 .hero {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
   gap: clamp(28px, 5vw, 64px);
@@ -288,10 +350,10 @@ a { color: inherit; }
 }
 
 .hero-lead {
-  font-size: clamp(17px, 1.6vw, 19px);
-  line-height: 1.6;
+  font-size: clamp(18px, 1.9vw, 21px);
+  line-height: 1.58;
   color: var(--ink-muted);
-  max-width: 46ch;
+  max-width: 44ch;
   margin: 1.1em 0 0;
 }
 
@@ -370,7 +432,7 @@ a { color: inherit; }
 .offer-item h3 {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 17px;
+  font-size: 20px;
   line-height: 1.25;
   color: var(--ink-strong);
   margin: 0 0 0.5em;
@@ -410,7 +472,7 @@ a { color: inherit; }
 .steps h3 {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 17px;
+  font-size: 18px;
   color: var(--ink-strong);
   margin: 0.45em 0 0.5em;
 }
@@ -442,7 +504,7 @@ a { color: inherit; }
 .person h3 {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 19px;
+  font-size: 22px;
   color: var(--ink-strong);
   margin: 1.1em 0 0.15em;
 }

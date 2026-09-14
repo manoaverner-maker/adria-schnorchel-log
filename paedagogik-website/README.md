@@ -111,6 +111,31 @@ hinzufügen:
 Für Tschechisch sind die nötigen Sonderzeichen bereits in den
 Schriftdateien enthalten.
 
+## Helle und dunkle Darstellung
+
+Die Seite richtet sich zunächst nach der Einstellung des Geräts: wer sein
+Handy oder seinen Rechner auf Dunkelmodus gestellt hat, sieht die dunkle
+Fassung. Über die Schaltfläche mit Mond beziehungsweise Sonne oben rechts
+lässt sich das jederzeit umstellen, und die Wahl bleibt gespeichert.
+
+Soll die Seite **immer** hell erscheinen, unabhängig vom Gerät: in
+`assets/css/style.css` die beiden Blöcke löschen, die mit
+`@media (prefers-color-scheme: dark)` und mit `:root[data-theme="dark"]`
+beginnen. Dann kann auch die Schaltfläche aus den drei HTML-Dateien
+entfernt werden (sie trägt `class="theme-toggle"`).
+
+## Die Wellenlinien im Kopfbereich
+
+Unter dem Einstiegstext liegt ein Band aus feinen, geschwungenen Linien.
+Es ist reine Gestaltung und steht als SVG direkt in `index.html`
+(`<div class="hero-waves">`). Zwei Stellschrauben in `style.css`:
+
+- `--wave` bei den Farben ganz oben: Deckkraft, je Darstellung getrennt
+- `.hero-waves { height: ... }`: Höhe des Bands
+
+Wer es ganz weglassen will, löscht den `<div class="hero-waves">` samt
+Inhalt aus `index.html`.
+
 ## Veröffentlichen
 
 Die Seite braucht keinen besonderen Server — es genügt Webhosting, das
@@ -125,6 +150,31 @@ Metanet.
 4. HTTPS aktivieren (bei allen genannten Anbietern kostenlos)
 
 Danach ist die Seite unter der eigenen Domain erreichbar.
+
+## Vorschau ohne eigene Domain
+
+Solange es keine Domain gibt, kann GitHub die Seite kostenlos unter einer
+Adresse der Form `https://<benutzername>.github.io/adria-schnorchel-log/`
+bereitstellen. Der nötige Ablauf liegt unter
+`.github/workflows/website-vorschau.yml` im Repository.
+
+Einmalig von Hand einzustellen:
+
+1. Im Repository auf **Settings → Pages**
+2. Unter *Build and deployment* bei *Source* **GitHub Actions** wählen
+
+Danach wird bei jeder Änderung am Website-Ordner automatisch eine neue
+Vorschau veröffentlicht. Die Adresse steht anschliessend auf derselben
+Seite unter Settings → Pages.
+
+Läuft die Veröffentlichung von einem anderen Branch als `main` und bricht
+sie mit einer Meldung über Umgebungsregeln ab, muss der Branch unter
+**Settings → Environments → github-pages → Deployment branches**
+freigegeben werden.
+
+Die Vorschau enthält eine Sperre für Suchmaschinen, damit die Seite mit
+ihren Platzhaltern nicht gefunden wird. Die Sperre entsteht nur in der
+Vorschau und betrifft die spätere echte Domain nicht.
 
 ## Technische Entscheide, kurz begründet
 

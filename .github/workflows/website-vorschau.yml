@@ -1,0 +1,65 @@
+# Stellt den Ordner paedagogik-website als GitHub-Pages-Seite bereit,
+# damit die Website unter einer echten Adresse im Browser geprüft werden
+# kann, solange es noch keine eigene Domain gibt.
+#
+# Einmalige Einstellung im Repository, die von Hand gemacht werden muss:
+#   Settings → Pages → Build and deployment → Source: "GitHub Actions"
+#
+# Läuft die Veröffentlichung von einem anderen Branch als dem
+# Standardbranch, muss dieser Branch zusätzlich freigegeben werden:
+#   Settings → Environments → github-pages → Deployment branches
+
+name: Website-Vorschau veröffentlichen
+
+on:
+  push:
+    branches:
+      - main
+      - claude/pedagogy-website-planning-hu4oqt
+    paths:
+      - 'paedagogik-website/**'
+      - '.github/workflows/website-vorschau.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Immer nur eine Veröffentlichung gleichzeitig, neuere lösen ältere ab.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  veroeffentlichen:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.veroeffentlichung.outputs.page_url }}
+    steps:
+      - name: Repository holen
+        uses: actions/checkout@v4
+
+      - name: Vorschau zusammenstellen
+        run: |
+          set -euo pipefail
+          cp -r paedagogik-website vorschau
+          # Solange die Seite Platzhalter enthält, soll sie nicht in
+          # Suchmaschinen erscheinen. Diese Sperre entsteht nur hier in
+          # der Vorschau und liegt nicht im Repository — was später auf
+          # die echte Domain hochgeladen wird, ist davon nicht betroffen.
+          printf 'User-agent: *\nDisallow: /\n' > vorschau/robots.txt
+          ls -la vorschau
+
+      - name: Pages vorbereiten
+        uses: actions/configure-pages@v5
+
+      - name: Dateien hochladen
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: vorschau
+
+      - name: Veröffentlichen
+        id: veroeffentlichung
+        uses: actions/deploy-pages@v4

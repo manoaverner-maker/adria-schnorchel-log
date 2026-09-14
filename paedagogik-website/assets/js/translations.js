@@ -16,6 +16,8 @@ window.SITE_TEXT = {
   /* ================= DEUTSCH ================= */
   de: {
     "lang.label": "Sprache wählen",
+    "theme.toDark": "Dunkle Darstellung einschalten",
+    "theme.toLight": "Helle Darstellung einschalten",
     "nav.label": "Hauptnavigation",
     "nav.skip": "Zum Inhalt springen",
     "nav.offer": "Angebot",
@@ -137,6 +139,8 @@ window.SITE_TEXT = {
   /* ================= ENGLISCH ================= */
   en: {
     "lang.label": "Choose language",
+    "theme.toDark": "Switch to dark appearance",
+    "theme.toLight": "Switch to light appearance",
     "nav.label": "Main navigation",
     "nav.skip": "Skip to content",
     "nav.offer": "Services",
@@ -258,6 +262,8 @@ window.SITE_TEXT = {
   /* ================= FRANZÖSISCH ================= */
   fr: {
     "lang.label": "Choisir la langue",
+    "theme.toDark": "Passer à l’affichage sombre",
+    "theme.toLight": "Passer à l’affichage clair",
     "nav.label": "Navigation principale",
     "nav.skip": "Aller au contenu",
     "nav.offer": "Prestations",

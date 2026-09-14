@@ -16,6 +16,8 @@
   var SUPPORTED = ["de", "en", "fr"];
   var FALLBACK = "de";
   var STORAGE_KEY = "sprache";
+  var THEME_KEY = "erscheinungsbild";
+  var aktuelleSprache = FALLBACK;
 
   /* Auf true: Besucher mit englisch- oder französischsprachigem Browser
      sehen die Seite beim ersten Aufruf gleich in ihrer Sprache.
@@ -72,9 +74,40 @@
     return "";
   }
 
+  /* --- Helle oder dunkle Darstellung ---
+     Ohne eigene Wahl gilt die Einstellung des Geräts. Ein Klick auf den
+     Umschalter legt die Darstellung fest und wird im Browser gemerkt. */
+  function aktuellesErscheinungsbild() {
+    var gesetzt = document.documentElement.getAttribute("data-theme");
+    if (gesetzt === "light" || gesetzt === "dark") return gesetzt;
+    var dunkel = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return dunkel ? "dark" : "light";
+  }
+
+  function beschrifteUmschalter() {
+    var knopf = document.querySelector("[data-theme-toggle]");
+    if (!knopf) return;
+    var schluessel = aktuellesErscheinungsbild() === "dark" ? "theme.toLight" : "theme.toDark";
+    var beschriftung = text(schluessel, aktuelleSprache);
+    knopf.setAttribute("aria-label", beschriftung);
+    knopf.setAttribute("title", beschriftung);
+  }
+
+  function wechsleErscheinungsbild() {
+    var neu = aktuellesErscheinungsbild() === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", neu);
+    try {
+      window.localStorage.setItem(THEME_KEY, neu);
+    } catch (e) {
+      /* Speichern nicht möglich — gilt dann nur für diesen Seitenaufruf. */
+    }
+    beschrifteUmschalter();
+  }
+
   /* --- Sprache auf die Seite anwenden --- */
   function apply(lang) {
     var year = String(new Date().getFullYear());
+    aktuelleSprache = lang;
 
     function resolve(key) {
       return text(key, lang).replace("{year}", year);
@@ -110,6 +143,7 @@
     }
 
     carryLanguageInLinks(lang);
+    beschrifteUmschalter();
   }
 
   /* --- Sprache auf Impressum/Datenschutz mitnehmen, auch ohne Speicher --- */
@@ -161,6 +195,11 @@
         if (!button) return;
         setLanguage(button.getAttribute("data-lang"), true);
       });
+    }
+
+    var umschalter = document.querySelector("[data-theme-toggle]");
+    if (umschalter) {
+      umschalter.addEventListener("click", wechsleErscheinungsbild);
     }
   }
 
