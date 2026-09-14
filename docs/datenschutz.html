@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Datenschutzerklärung — [Praxisname]</title>
+  <meta name="description" content="Wie diese Website mit Personendaten umgeht.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#F2F3EE" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#191D24" media="(prefers-color-scheme: dark)">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/fonts.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script>
+    /* Gespeicherte Wahl für Hell/Dunkel setzen, bevor die Seite gezeichnet
+       wird. Ohne diesen Schritt würde kurz das falsche Erscheinungsbild
+       aufblitzen. */
+    try {
+      var gespeichert = localStorage.getItem("erscheinungsbild");
+      if (gespeichert === "light" || gespeichert === "dark") {
+        document.documentElement.setAttribute("data-theme", gespeichert);
+      }
+    } catch (e) {}
+  </script>
+</head>
+
+<body data-meta-title="privacy.meta.title" data-meta-description="privacy.meta.description">
+
+  <a class="skip-link" href="#inhalt" data-i18n="nav.skip">Zum Inhalt springen</a>
+
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-name placeholder" data-i18n="brand.name">[Praxisname]</span>
+        <span class="brand-role" data-i18n="brand.role">Pädagogische Beratung</span>
+      </a>
+
+      <div class="header-tools">
+        <nav class="site-nav" data-i18n-aria-label="nav.label" aria-label="Hauptnavigation">
+          <ul>
+            <li><a href="index.html#angebot" data-i18n="nav.offer">Angebot</a></li>
+            <li><a href="index.html#ablauf" data-i18n="nav.process">Ablauf</a></li>
+            <li><a href="index.html#ueber-uns" data-i18n="nav.about">Über uns</a></li>
+            <li><a href="index.html#kontakt" data-i18n="nav.contact">Kontakt</a></li>
+          </ul>
+        </nav>
+
+        <button type="button" class="theme-toggle" data-theme-toggle
+                aria-label="Dunkle Darstellung einschalten">
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path fill="currentColor" d="M20.2 14.9A8.6 8.6 0 0 1 9.1 3.8a8.5 8.5 0 1 0 11.1 11.1z"/>
+          </svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="4.1" fill="currentColor"/>
+            <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <path d="M12 2.4v2.3M12 19.3v2.3M2.4 12h2.3M19.3 12h2.3M5.2 5.2l1.6 1.6M17.2 17.2l1.6 1.6M18.8 5.2l-1.6 1.6M6.8 17.2l-1.6 1.6"/>
+            </g>
+          </svg>
+        </button>
+
+        <div class="lang-switch" data-lang-switch role="group" data-i18n-aria-label="lang.label" aria-label="Sprache wählen">
+          <button type="button" data-lang="de" aria-pressed="true" lang="de">DE</button>
+          <button type="button" data-lang="en" aria-pressed="false" lang="en">EN</button>
+          <button type="button" data-lang="fr" aria-pressed="false" lang="fr">FR</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="inhalt" class="shell legal">
+    <p class="eyebrow" data-i18n="footer.privacy">Datenschutz</p>
+    <h1 class="legal-title" data-i18n="privacy.title">Datenschutzerklärung</h1>
+
+    <div class="legal-body">
+      <p class="lead" data-i18n="privacy.intro">Wir bearbeiten Personendaten nach dem Schweizer Bundesgesetz über den Datenschutz (DSG). Diese Erklärung beschreibt, welche Daten beim Besuch dieser Website anfallen und wie wir damit umgehen.</p>
+
+      <h2 data-i18n="privacy.h.1">Verantwortliche Stelle</h2>
+      <address class="placeholder">
+        [Praxisname]<br>
+        [Strasse Nr.]<br>
+        [PLZ Ort], Schweiz<br>
+        <a href="mailto:kontakt@beispiel.ch">kontakt@beispiel.ch</a>
+      </address>
+
+      <h2 data-i18n="privacy.h.2">Grundsatz</h2>
+      <p data-i18n="privacy.p.2">Wir bearbeiten Personendaten nur, soweit dies für den Betrieb der Website und für die Beantwortung Ihrer Anfragen nötig ist. Ihre Daten werden weder verkauft noch zu Werbezwecken an Dritte weitergegeben.</p>
+
+      <h2 data-i18n="privacy.h.3">Kontaktaufnahme</h2>
+      <p data-i18n="privacy.p.3">Wenn Sie uns per E-Mail oder Telefon kontaktieren, bearbeiten wir die von Ihnen übermittelten Angaben zur Beantwortung Ihrer Anfrage. Wir bewahren sie so lange auf, wie es für die Bearbeitung und allfällige Anschlussfragen nötig ist.</p>
+
+      <h2 data-i18n="privacy.h.4">Hosting und Server-Protokolle</h2>
+      <p data-i18n="privacy.p.4">Diese Website wird bei einem Hosting-Anbieter betrieben. Beim Aufruf der Seiten erfasst dessen Server automatisch technische Angaben wie IP-Adresse, Datum und Uhrzeit des Zugriffs, Browsertyp und Betriebssystem. Diese Protokolle dienen dem sicheren und stabilen Betrieb der Website.</p>
+
+      <h2 data-i18n="privacy.h.5">Cookies und Analyse</h2>
+      <p data-i18n="privacy.p.5">Diese Website setzt keine Cookies und verwendet keine Analyse-, Tracking- oder Werbedienste. Ihre Sprachwahl wird ausschliesslich lokal in Ihrem Browser gespeichert und nicht an uns übermittelt.</p>
+
+      <h2 data-i18n="privacy.h.6">Ihre Rechte</h2>
+      <p data-i18n="privacy.p.6">Sie haben das Recht auf Auskunft über die zu Ihrer Person bearbeiteten Daten sowie auf deren Berichtigung oder Löschung. Wenden Sie sich dafür an die oben genannte Adresse.</p>
+
+      <h2 data-i18n="privacy.h.7">Änderungen</h2>
+      <p data-i18n="privacy.p.7">Wir können diese Datenschutzerklärung jederzeit anpassen. Massgebend ist die jeweils auf dieser Website veröffentlichte Fassung.</p>
+
+      <p class="legal-meta">
+        <span data-i18n="legal.updated">Stand:</span> <span class="placeholder">[Monat Jahr]</span><br>
+        <a class="link-quiet" href="index.html" data-i18n="footer.back">Zurück zur Startseite</a>
+      </p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <div>
+        <p class="footer-tagline" data-i18n="footer.tagline">Pädagogische Beratung für Familien und Schulen.</p>
+        <p class="footer-copy placeholder" data-i18n="footer.copyright">© [Jahr] [Praxisname]. Alle Rechte vorbehalten.</p>
+      </div>
+      <ul class="footer-links">
+        <li><a href="impressum.html" data-i18n="footer.imprint">Impressum</a></li>
+        <li><a href="datenschutz.html" data-i18n="footer.privacy">Datenschutz</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="assets/js/translations.js"></script>
+  <script src="assets/js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,735 @@
+/* =========================================================
+   Pädagogische Beratung — Stylesheet
+   Richtung B: Schweizer Raster, Tinte / Papier / Ocker
+   ========================================================= */
+
+/* ---------- 1. Farb- und Massangaben (Tokens) ------------
+   Hier stehen alle Farben zentral. Wer die Farbwelt ändern
+   will, ändert nur diesen Block — nicht die Regeln weiter unten.
+   --------------------------------------------------------- */
+:root {
+  /* Helles Erscheinungsbild (Standard) */
+  --paper:        #F2F3EE;
+  --surface:      #FFFFFF;
+  --ink:          #232C39;
+  --ink-strong:   #141A23;
+  --ink-muted:    #535B63;
+  --accent:       #C97A1F;  /* Flächen, Linien, grosse Schrift */
+  --accent-text:  #8F5310;  /* dieselbe Farbe, dunkler: für kleine Schrift lesbar */
+  --accent-ink:   #FFFFFF;  /* Schrift auf ockerner Fläche */
+  --line:         #CBCFC6;
+  --line-strong:  #232C39;
+  --focus:        #1F6FEB;
+  --wave:         0.18;     /* Deckkraft des Wellenbands im Hero */
+
+  /* Typografie — Schriftdateien siehe fonts.css */
+  --font-display: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-ui:      'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body:    'Source Serif 4', Georgia, 'Times New Roman', serif;
+
+  /* Raster */
+  --shell:        1080px;
+  --gutter:       clamp(20px, 5vw, 48px);
+  --section-y:    clamp(56px, 8vw, 96px);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:       #191D24;
+    --surface:     #20252E;
+    --ink:         #EBEDEF;
+    --ink-strong:  #FFFFFF;
+    --ink-muted:   #A3ACB7;
+    --accent:      #E0A458;
+    --accent-text: #E8B575;
+    --accent-ink:  #1A1204;
+    --line:        #343C48;
+    --line-strong: #6C7685;
+    --focus:       #7FB2FF;
+    --wave:        0.22;
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper:       #191D24;
+  --surface:     #20252E;
+  --ink:         #EBEDEF;
+  --ink-strong:  #FFFFFF;
+  --ink-muted:   #A3ACB7;
+  --accent:      #E0A458;
+  --accent-text: #E8B575;
+  --accent-ink:  #1A1204;
+  --line:        #343C48;
+  --line-strong: #6C7685;
+  --focus:       #7FB2FF;
+  --wave:        0.22;
+}
+
+/* ---------- 2. Grundlagen ---------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.65;
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+a { color: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+.shell {
+  max-width: var(--shell);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  padding: 12px 18px;
+  text-decoration: none;
+}
+.skip-link:focus {
+  left: 12px;
+  top: 12px;
+}
+
+/* ---------- 3. Wiederkehrende Textbausteine ---------- */
+
+/* Überschriften nutzen die breite Schnittweite derselben Schrift.
+   Steht hier gesammelt, damit die Auszeichnung an einer Stelle liegt. */
+.brand-name,
+.hero-title,
+.section-title,
+.legal-title,
+.legal-body h2,
+.offer-item h3,
+.steps h3,
+.person h3 {
+  font-stretch: 125%;
+}
+
+.eyebrow {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+  margin: 0;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(26px, 3.6vw, 37px);
+  line-height: 1.13;
+  letter-spacing: -0.01em;
+  color: var(--ink-strong);
+  text-wrap: balance;
+  margin: 0.45em 0 0;
+}
+
+.lead {
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--ink-muted);
+  max-width: 58ch;
+  margin: 1em 0 0;
+}
+
+.section {
+  padding-block: var(--section-y);
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 108px;
+}
+
+.section-head { margin-bottom: clamp(32px, 5vw, 52px); }
+
+/* ---------- 4. Kopfzeile ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
+  backdrop-filter: saturate(140%) blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+
+@supports not (backdrop-filter: blur(8px)) {
+  .site-header { background: var(--paper); }
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-block: 14px;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  gap: 2px;
+}
+.brand-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: -0.005em;
+  color: var(--ink-strong);
+}
+.brand-role {
+  font-family: var(--font-ui);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.header-tools {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.site-nav ul {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+.site-nav a {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--ink);
+  padding-block: 4px;
+  border-bottom: 1.5px solid transparent;
+}
+.site-nav a:hover { border-bottom-color: var(--accent); }
+
+/* Umschalter für helle und dunkle Darstellung.
+   Welches Symbol sichtbar ist, entscheidet allein das CSS: gezeigt wird
+   immer das Symbol der Darstellung, zu der der Klick führt. */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--ink-muted);
+  cursor: pointer;
+}
+.theme-toggle:hover { color: var(--ink-strong); }
+.theme-toggle svg { width: 16px; height: 16px; }
+
+.theme-toggle .icon-moon { display: block; }
+.theme-toggle .icon-sun { display: none; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: none; }
+  :root:not([data-theme="light"]) .theme-toggle .icon-sun { display: block; }
+}
+:root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+:root[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+:root[data-theme="light"] .theme-toggle .icon-moon { display: block; }
+:root[data-theme="light"] .theme-toggle .icon-sun { display: none; }
+
+/* Sprachumschalter */
+.lang-switch {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.lang-switch button {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 6px 10px;
+  min-width: 40px;
+  border: 0;
+  border-left: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink-muted);
+  cursor: pointer;
+}
+.lang-switch button:first-child { border-left: 0; }
+.lang-switch button:hover { color: var(--ink-strong); }
+.lang-switch button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* ---------- 5. Hero ---------- */
+
+/* Die Konturlinien liegen randabfallend hinter dem Hero-Text.
+   Ihre Deckkraft steht als --wave oben bei den Farben. */
+.hero-wrap {
+  position: relative;
+  overflow: hidden;
+}
+.hero-waves {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(150px, 22vw, 250px);
+  color: var(--accent);
+  opacity: var(--wave);
+  pointer-events: none;
+}
+.hero-waves svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.hero-waves path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+}
+
+.hero {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+  gap: clamp(28px, 5vw, 64px);
+  padding-block: clamp(52px, 8vw, 92px) clamp(48px, 7vw, 80px);
+  align-items: start;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(32px, 5.4vw, 54px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--ink-strong);
+  text-wrap: balance;
+  margin: 0.35em 0 0;
+}
+
+.hero-lead {
+  font-size: clamp(18px, 1.9vw, 21px);
+  line-height: 1.58;
+  color: var(--ink-muted);
+  max-width: 44ch;
+  margin: 1.1em 0 0;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-top: 2em;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 13px 22px;
+  border-radius: 2px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: 1px solid var(--accent);
+  transition: transform 120ms ease;
+}
+.button:hover { transform: translateY(-1px); }
+
+.link-quiet {
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1.5px solid var(--line-strong);
+  padding-bottom: 2px;
+}
+.link-quiet:hover { border-bottom-color: var(--accent); }
+
+/* Faktenspalte im Hero */
+.hero-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin: 0;
+  padding-top: clamp(4px, 2vw, 22px);
+}
+.hero-facts > div { border-top: 1px solid var(--line); padding-top: 12px; }
+.hero-facts dt {
+  font-family: var(--font-ui);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+.hero-facts dd {
+  margin: 5px 0 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-muted);
+}
+
+/* ---------- 6. Angebot ---------- */
+/* Feste Spaltenzahlen statt automatischem Umbruch: so steht bei vier
+   Einträgen nie einer allein in der zweiten Reihe. */
+.offer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(24px, 3.5vw, 40px);
+}
+@media (min-width: 620px) {
+  .offer-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.offer-item { border-top: 2px solid var(--line-strong); padding-top: 16px; }
+.offer-item h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--ink-strong);
+  margin: 0 0 0.5em;
+}
+.offer-item p {
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--ink-muted);
+  max-width: 44ch;
+}
+
+/* ---------- 7. Ablauf ---------- */
+.steps {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(24px, 3.5vw, 40px);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+@media (min-width: 760px) {
+  .steps { grid-template-columns: repeat(3, 1fr); }
+}
+.steps li {
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+.step-number {
+  font-family: var(--font-ui);
+  font-variant-numeric: tabular-nums;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--accent-text);
+}
+.steps h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--ink-strong);
+  margin: 0.45em 0 0.5em;
+}
+.steps p {
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--ink-muted);
+}
+
+/* ---------- 8. Über uns ---------- */
+.people {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(32px, 4.5vw, 56px);
+  margin-top: clamp(32px, 5vw, 48px);
+}
+@media (min-width: 620px) {
+  .people { grid-template-columns: repeat(2, 1fr); }
+}
+.person-photo {
+  width: 100%;
+  max-width: 260px;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+.person h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--ink-strong);
+  margin: 1.1em 0 0.15em;
+}
+.person-role {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+  margin: 0;
+}
+.person-bio {
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--ink-muted);
+  margin: 1em 0 0;
+  max-width: 46ch;
+}
+.credentials {
+  margin: 0.6em 0 0;
+  padding: 0;
+  list-style: none;
+}
+.credentials-label {
+  font-family: var(--font-ui);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin: 1.6em 0 0;
+  padding-top: 1.2em;
+  border-top: 1px solid var(--line);
+}
+.credentials li {
+  font-family: var(--font-ui);
+  font-size: 14.5px;
+  color: var(--ink-muted);
+  padding-block: 7px;
+  border-bottom: 1px solid var(--line);
+}
+
+/* ---------- 9. Referenzen ---------- */
+.quotes {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(28px, 4vw, 48px);
+}
+@media (min-width: 620px) {
+  .quotes { grid-template-columns: repeat(2, 1fr); }
+}
+.quote {
+  margin: 0;
+  border-left: 1.5px solid var(--line-strong);
+  padding-left: clamp(18px, 2.5vw, 28px);
+}
+.quote p {
+  font-size: 18px;
+  line-height: 1.6;
+  font-style: italic;
+  color: var(--ink);
+  margin: 0;
+  text-wrap: pretty;
+}
+.quote figcaption {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--ink-muted);
+  margin-top: 1em;
+}
+
+/* ---------- 10. Kontakt ---------- */
+.contact {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(32px, 5vw, 64px);
+  align-items: start;
+}
+@media (min-width: 760px) {
+  .contact { grid-template-columns: repeat(2, 1fr); }
+}
+.contact-details {
+  margin: 0;
+  display: grid;
+  gap: 0;
+}
+.contact-details > div {
+  display: grid;
+  /* breit genug für das längste Label („Erreichbarkeit“) */
+  grid-template-columns: minmax(132px, 30%) 1fr;
+  gap: 20px;
+  padding-block: 14px;
+  border-top: 1px solid var(--line);
+  align-items: baseline;
+}
+.contact-details > div:last-child { border-bottom: 1px solid var(--line); }
+.contact-details dt {
+  font-family: var(--font-ui);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  overflow-wrap: break-word;
+}
+.contact-details dd {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.contact-details a { text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
+.contact-details a:hover { text-decoration-color: var(--accent); }
+
+/* ---------- 11. Fusszeile ---------- */
+.site-footer {
+  border-top: 1px solid var(--line);
+  padding-block: 40px 48px;
+  font-family: var(--font-ui);
+  font-size: 13.5px;
+  color: var(--ink-muted);
+}
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.footer-links {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+.footer-links a { text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 2px; }
+.footer-links a:hover { border-bottom-color: var(--accent); }
+.footer-tagline { margin: 0; max-width: 46ch; }
+.footer-copy { margin: 14px 0 0; font-size: 12.5px; }
+
+/* ---------- 12. Rechtstexte (Impressum / Datenschutz) ---------- */
+.legal { padding-block: clamp(44px, 6vw, 72px) clamp(56px, 8vw, 88px); }
+.legal-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(28px, 4vw, 40px);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  color: var(--ink-strong);
+  margin: 0.4em 0 0;
+}
+.legal-body { max-width: 68ch; }
+.legal-body h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--ink-strong);
+  margin: 2.4em 0 0.6em;
+  padding-top: 1.2em;
+  border-top: 1px solid var(--line);
+}
+.legal-body p { margin: 0 0 1em; color: var(--ink-muted); }
+.legal-body address {
+  font-style: normal;
+  color: var(--ink);
+  line-height: 1.7;
+  margin-bottom: 1em;
+}
+.legal-meta {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin-top: 2.6em;
+  padding-top: 1.2em;
+  border-top: 1px solid var(--line);
+}
+
+/* ---------- 13. Platzhalter-Kennzeichnung ----------
+   Alles, was noch mit echten Inhalten ersetzt werden muss,
+   trägt die Klasse .placeholder und wird dezent markiert.
+   Vor dem Aufschalten: diese eine Regel auskommentieren,
+   dann ist von der Markierung nichts mehr zu sehen.
+   --------------------------------------------------------- */
+.placeholder {
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, var(--ink-muted) 50%, transparent);
+  text-underline-offset: 4px;
+}
+
+/* ---------- 14. Schmale Bildschirme ---------- */
+@media (max-width: 760px) {
+  .hero { grid-template-columns: 1fr; }
+  .header-inner { align-items: flex-start; }
+  .brand { flex: 1 1 auto; }
+}
+
+@media (max-width: 560px) {
+  body { font-size: 16px; }
+  .header-tools { width: 100%; justify-content: space-between; gap: 12px; }
+  .site-nav ul { gap: 14px; }
+  .site-nav a { font-size: 13.5px; }
+  .contact-details > div { grid-template-columns: 1fr; gap: 4px; }
+  .footer-inner { flex-direction: column; }
+}
+
+/* ---------- 15. Bewegung reduzieren ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- 16. Druck ---------- */
+@media print {
+  .site-header, .hero-actions, .skip-link { display: none; }
+  body { background: #fff; color: #000; }
+}

@@ -1,0 +1,4 @@
+# Vorschau-Seite: noch nicht in Suchmaschinen aufnehmen.
+# Vor dem Aufschalten unter der eigenen Domain diese Datei loeschen.
+User-agent: *
+Disallow: /
